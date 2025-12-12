@@ -14,6 +14,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: <yourdockerhub>/springboot-webapp:latest
+        image: webapp:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
