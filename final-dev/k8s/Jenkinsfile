@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/<yourname>/<repo>.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+
+        stage('Upload to Nexus') {
+            steps {
+                sh """
+                curl -v -F r=maven-releases \
+                   -F hasPom=true \
+                   -F file=@target/*.jar \
+                   http://nexus:8081/repository/maven-releases/
+                """
+            }
+        }
+    }
+}
